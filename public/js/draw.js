@@ -505,16 +505,12 @@ function drawEffects(context, layer = LAYERS.BACKGROUND) {
     scene.effects
       .filter((fx) => fx.layer === layer)
       .forEach((fx) => {
-        if (fx.type === "rain") {
-          drawRain(fx.id, context, fx.props);
-        } else if (fx.type === "lightning") {
-          drawLightning(context, fx.props);
-        } else if (fx.type === "stars") {
-          drawStars(fx.id, context, fx.props);
-        } else if (fx.type === "clouds") {
-          drawClouds(fx.id, context, fx.props);
-        } else if (fx.type === "sun") {
-          drawSun(fx.id, context, fx.props);
+        switch (fx.type) {
+          case "rain": drawRain(fx.id, context, fx.props); break;
+          case "lightning": drawLightning(context, fx.props); break;
+          case "stars": drawStars(fx.id, context, fx.props); break;
+          case "clouds": drawClouds(fx.id, context, fx.props); break;
+          case "sun": drawSun(fx.id, context, fx.props); break;
         }
       });
   }
