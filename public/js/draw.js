@@ -511,9 +511,42 @@ function drawEffects(context, layer = LAYERS.BACKGROUND) {
           case "stars": drawStars(fx.id, context, fx.props); break;
           case "clouds": drawClouds(fx.id, context, fx.props); break;
           case "sun": drawSun(fx.id, context, fx.props); break;
+          case "city": drawCity(fx.id, context, fx.props); break;
         }
       });
   }
+}
+
+function drawCity(id, context, {
+  color = "#1f1f1f",
+  heights = [200, 175, 300, 250, 175, 275, 260, 215, 320, 180]
+}) {
+  if (!effects.canvas[id]) {
+    effects.canvas[id] = document.createElement("canvas");
+    effects.canvas[id].width = context.canvas.width;
+    effects.canvas[id].height = context.canvas.height;
+  }
+
+  if (effects.redraw) {
+    const bgEffectContext = effects.canvas[id].getContext("2d");
+    bgEffectContext.clearRect(
+      0,
+      0,
+      effects.canvas[id].width,
+      effects.canvas[id].height
+    );
+
+    bgEffectContext.fillStyle = color
+    bgEffectContext.beginPath();
+    bgEffectContext.rect(0, effects.canvas[id].height, effects.canvas[id].width, -25);
+    const base = effects.canvas[id].height - 25
+    for (let n = 0; n <= heights.length; n++) {
+      bgEffectContext.rect(n * 100, base, 100, -heights[n]);
+    }
+    bgEffectContext.fill();
+  }
+
+  context.drawImage(effects.canvas[id], 0, 0);
 }
 
 function drawStars(id, context, { stars = 200, color = "#ffffff" }) {
