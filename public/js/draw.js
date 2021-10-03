@@ -534,6 +534,7 @@ function drawCity(
   context,
   {
     color = "#1f1f1f",
+    windows = "#38b0de",
     heights = [200, 175, 300, 250, 175, 275, 260, 215, 320, 180],
   }
 ) {
@@ -560,11 +561,21 @@ function drawCity(
       effects.canvas[id].width,
       -25
     );
-    const base = effects.canvas[id].height - 25;
-    for (let n = 0; n <= heights.length; n++) {
-      bgEffectContext.rect(n * 100, base, 100, -heights[n]);
-    }
     bgEffectContext.fill();
+    const base = effects.canvas[id].height - 25;
+    for (let pos = 0; pos <= heights.length; pos++) {
+      bgEffectContext.fillStyle = color;
+      bgEffectContext.beginPath();
+      const height = -heights[pos]
+      bgEffectContext.rect(pos * 100, base, 100, height);
+      bgEffectContext.fill();
+      bgEffectContext.fillStyle = windows;
+      bgEffectContext.beginPath();
+      for (let wpos = -50; wpos > height; wpos -= 35) {
+        bgEffectContext.rect(pos * 100 + 15, base + wpos, 70, 15);
+      }
+      bgEffectContext.fill();
+    }
   }
 
   context.drawImage(effects.canvas[id], 0, 0);
